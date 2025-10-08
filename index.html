@@ -3,17 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laze GameHub</title>
+  <title>Laze Game Hub 🎮</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">🎮 Laze GameHub</h1>
-    <p class="subtitle">Play cool browser games made by Laze — no downloads, just fun ⚡</p>
-    <button class="play-btn" onclick="window.location.href='games/coinflip/index.html'">PLAY NOW</button>
+  <!-- Spark particle canvas -->
+  <canvas id="sparkCanvas"></canvas>
+
+  <div class="hero">
+    <h1 class="title">🎮 Laze Game Hub</h1>
+    <p class="subtitle">Play • Explore • Conquer</p>
   </div>
 
-  <canvas id="sparkCanvas"></canvas>
+  <div class="game-container">
+    <!-- Coin Flip Card -->
+    <div class="game-card">
+      <h2>Coin Flip 3D</h2>
+      <p>Flip a shiny 3D coin with physics & style.</p>
+      <button onclick="window.location.href='games/coinflip/index.html'">Play Now</button>
+    </div>
+
+    <!-- Runner X Card -->
+    <div class="game-card">
+      <h2>Runner X</h2>
+      <p>Jump over obstacles in neon levels!</p>
+      <button onclick="window.location.href='games/runner/index.html'">Play Now</button>
+    </div>
+
+    <!-- VS Battle Card -->
+    <div class="game-card">
+      <h2>VS Battle</h2>
+      <p>Challenge a friend in 2D combat!</p>
+      <button onclick="window.location.href='games/vsbattle/index.html'">Play Now</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Laze YT | Built with ⚡ and Neon Glow</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
