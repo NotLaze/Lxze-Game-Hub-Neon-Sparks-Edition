@@ -1,1 +1,79 @@
-<html><body style='background:black;color:cyan;text-align:center;font-family:sans-serif;'><h1>⚔️ VS Battle</h1><p>Coming soon!</p></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>VS Battle</title>
+<style>
+  body { margin:0; background:#000; color:#0ff; font-family:sans-serif; overflow:hidden; }
+  canvas { display:block; margin:0 auto; background:#000; }
+</style>
+</head>
+<body>
+<canvas id="battle" width="800" height="400"></canvas>
+<script>
+const canvas = document.getElementById('battle');
+const ctx = canvas.getContext('2d');
+
+let player1={x:100,y:350,w:40,h:40,vy:0};
+let player2={x:650,y:350,w:40,h:40,vy:0};
+const gravity=0.8;
+let bullets=[];
+
+function draw() {
+  ctx.fillStyle='#000';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // players
+  ctx.fillStyle='cyan';
+  ctx.fillRect(player1.x, player1.y, player1.w, player1.h);
+  ctx.fillStyle='magenta';
+  ctx.fillRect(player2.x, player2.y, player2.w, player2.h);
+
+  // bullets
+  ctx.fillStyle='yellow';
+  bullets.forEach(b=>ctx.fillRect(b.x,b.y,b.w,b.h));
+}
+
+function update() {
+  // gravity
+  [player1,player2].forEach(p=>{
+    p.vy+=gravity;
+    p.y+=p.vy;
+    if(p.y>360){ p.y=360; p.vy=0; }
+  });
+
+  bullets.forEach(b=>{ b.x += b.vx; });
+  bullets = bullets.filter(b=>b.x>0 && b.x<canvas.width);
+
+  // collision
+  bullets.forEach(b=>{
+    if(b.owner===1 && b.x<b.player2x+player2.w && b.x+b.w>player2.x && b.y<player2.y+player2.h && b.y+b.h>player2.y){
+      alert('Player 1 Wins!');
+      document.location.reload();
+    }
+    if(b.owner===2 && b.x<b.player1x+player1.w && b.x+b.w>player1.x && b.y<player1.y+player1.h && b.y+b.h>player1.y){
+      alert('Player 2 Wins!');
+      document.location.reload();
+    }
+  });
+}
+
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
+
+window.addEventListener('keydown', e=>{
+  // Player 1 controls (W jump, D right, A left, F shoot)
+  if(e.code==='KeyW' && player1.y===360) player1.vy=-15;
+  if(e.code==='KeyA') player1.x-=10;
+  if(e.code==='KeyD') player1.x+=10;
+  if(e.code==='KeyF') bullets.push({x:player1.x+player1.w, y:player1.y+20, w:10,h:5,vx:7,owner:1,player2x:player2.x});
+
+  // Player 2 controls (Arrow Up jump, Right/Left move, '/' shoot)
+  if(e.code==='ArrowUp' && player2.y===360) player2.vy=-15;
+  if(e.code==='ArrowLeft') player2.x-=10;
+  if(e.code==='ArrowRight') player2.x+=10;
+  if(e.code==='Slash') bullets.push({x:player2.x-10, y:player2.y+20, w:10,h:5,vx:-7,owner:2,player1x:player1.x});
+});
+</script>
+</body>
+</html>
